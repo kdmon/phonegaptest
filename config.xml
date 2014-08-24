@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.helloworld" version="1.0.0">
-  <name>HelloWorld</name>
-  <description>A sample Apache Cordova application that responds to the deviceready event.</description>
-  <author email="dev@callback.apache.org" href="http://phonegap.com">Apache Cordova Team</author>
+  <name>LocalNotificationTest</name>
+  <description>A test of the local notification plugin.</description>
+  <author email="dev@callback.apache.org" href="http://phonegap.com">Some author</author>
   <content src="index.html" />
-  <access origin="*" />
-  <preference name="Fullscreen" value="true" />
-  <preference name="Orientation" value="landscape" />
   <gap:platform name="android" />
   <gap:plugin name="org.apache.cordova.device" version="0.2.8" />
   <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.4" />
+  <access origin="*" />
 </widget>
