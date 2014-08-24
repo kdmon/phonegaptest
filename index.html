@@ -2,8 +2,13 @@
 
   <head>
     <script>
-      document.addEventListener('deviceready', function() {
-        alert ("device ready")
+          
+          
+      document.addEventListener("deviceready", init, false);
+      
+      function init()    {
+        alert("Device is ready");
+      
         // window.plugin.notification.local is now available
         window.plugin.notification.local.add({
           message: 'Great app!'
@@ -19,7 +24,7 @@
         window.plugin.notification.local.onclick = function(id, state, json) {
           alert(id + state + json);
         };
-      }, false);
+      };
       
       function msg (m) {
         
@@ -28,12 +33,13 @@
           message: m
         });
       }
+      
     </script>
   </head>
 
   <body>
     <h1>Phonegap local notification test 2</h1>
-    <button onclick="javascript: msg('Hello world')">Send a notification</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Hello world')">Send a notification!</button>
   </body>
 
 </html>
