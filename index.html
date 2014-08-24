@@ -17,12 +17,13 @@
           date: _10_seconds_from_now
         });
         window.plugin.notification.local.onclick = function(id, state, json) {
-          alert(id + state + json)
+          alert(id + state + json);
         };
       }, false);
       
       function msg (m) {
         
+        alert ("msg method running");
         window.plugin.notification.local.add({
           message: m
         });
