@@ -9,5 +9,6 @@
   <preference name="Fullscreen" value="true" />
   <preference name="Orientation" value="landscape" />
   <gap:platform name="android" />
+  <gap:plugin name="org.apache.cordova.device" version="0.2.8" />
   <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.4" />
 </widget>
