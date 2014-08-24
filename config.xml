@@ -1,4 +1,6 @@
-<widget id="com.example.hello" version="0.0.1">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.helloworld" version="1.0.0">
   <name>HelloWorld</name>
   <description>A sample Apache Cordova application that responds to the deviceready event.</description>
   <author email="dev@callback.apache.org" href="http://phonegap.com">Apache Cordova Team</author>
