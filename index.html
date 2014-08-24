@@ -1,16 +1,12 @@
 <html>
 
   <head>
-  
     <script type="text/javascript" src="phonegap.js"></script>
     <script>
-          
-          
       document.addEventListener("deviceready", init, false);
-      
-      function init()    {
+
+      function init() {
         alert("Device is ready");
-      
         // window.plugin.notification.local is now available
         window.plugin.notification.local.add({
           message: 'Great app!'
@@ -27,22 +23,22 @@
           alert(id + state + json);
         };
       };
-      
-      function msg (m, s) {
-        
-        alert ("msg method running");
+
+      function msg(m, s) {
+        alert("msg method running");
         window.plugin.notification.local.add({
-          message: m,
-          sound: s
+            message: m,
+            sound: s
+          });
       }
-      
     </script>
   </head>
+
   <body>
     <h1>Phonegap local notification test 2</h1>
     <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Notification msg', 'TYPE_NOTIFICATION');)">Notification!</button>
-     <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Alarm msg', 'TYPE_ALARM');)">Alarm!</button>
-     <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Ringtone msg', 'TYPE_RINGTONE');)">Ringtone!</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Alarm msg', 'TYPE_ALARM');)">Alarm!</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Ringtone msg', 'TYPE_RINGTONE');)">Ringtone!</button>
   </body>
 
 </html>
