@@ -19,6 +19,7 @@
         setInterval(function() {
           c++;
           window.plugin.notification.local.add({
+            id: c + 1000,
             title: 'Scheduled msg',
             message: 'Message number ' + c
           });
@@ -32,7 +33,7 @@
 
       function msg(m, s) {
         window.plugin.notification.local.add({
-            id: c + 1000,
+            title: 'Custom msg'
             message: m,
             sound: s
           });
