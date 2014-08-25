@@ -7,23 +7,20 @@
 
       function init() {
         
-        window.plugin.backgroundMode.enable();
+        // window.plugin.backgroundMode.enable();
 
         // window.plugin.notification.local is now available
         window.plugin.notification.local.add({
           title: 'State update',
-          message: 'Device ready, scheduling msg every 5s!'
+          message: 'Device ready, scheduling msg every 5s w. interval!'
         });
         
         var c = 0;
         setInterval(function() {
-          c++
-          var now = new Date().getTime();
-          var _10_seconds_from_now = new Date(now + 10 * 1000);
+          c++;
           window.plugin.notification.local.add({
             title: 'Scheduled msg',
-            message: 'Message number ' + c,
-            date: _10_seconds_from_now
+            message: 'Message number ' + c
           });
         },  5000);
       
