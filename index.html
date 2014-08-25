@@ -2,40 +2,45 @@
 
   <head>
     <script type="text/javascript" src="phonegap.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script>
+    
+      var dready = false;
+      
       document.addEventListener("deviceready", init, false);
 
       function init() {
+        if (dready) return;
+        dready = true;
         
         // window.plugin.backgroundMode.enable();
-
-        // window.plugin.notification.local is now available
-        window.plugin.notification.local.add({
-          title: 'State update',
-          message: 'Device ready, scheduling msg every 5s w. interval!'
-        });
         
-        var c = 0;
         setInterval(function() {
-          c++;
-          window.plugin.notification.local.add({
-            id: c + 1000,
-            title: 'Scheduled msg',
-            message: 'Message number ' + c
+          
+          $.get("http://en.wikipedia.org/w/api.php?action=query&list=pageswithprop&format=json&pwppropname=title&pwpprop=title&pwplimit=1&generator=random&grnnamespace=0&grnlimit=1", function (data){
+              var obj = JSON.parse(data);
+              var title = '';
+              $.each(obj.query.pages, function (k,v) {title = obj.query.pages[k].title});
+              msg ("Random Wikipedia article", title);
           });
+        
+          window.plugin.notification.local.onclick = function(id, state, json) {
+            alert(id + state + json);
+          };
+      
         },  5000);
       
-        window.plugin.notification.local.onclick = function(id, state, json) {
-          alert(id + state + json);
-        };
-      
       }
+      
+      var c = 100;
 
-      function msg(m, s) {
+      function msg(t, m, s) {
+        c++;
         window.plugin.notification.local.add({
-            title: 'Custom msg',
-            message: m,
-            sound: s
+            id: c,
+            title: t || 'No title',
+            message: m || 'No message',
+            sound: s || 'TYPE_NOTIFICATION'
           });
       }
     </script>
@@ -43,11 +48,11 @@
 
   <body>
     <h1>Phonegap local notification test 2</h1>
-    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Notification msg', 'TYPE_NOTIFICATION');">Notification!</button>
-    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Alarm msg', 'TYPE_ALARM');">Alarm!</button>
-    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Ringtone msg', 'TYPE_RINGTONE');">Ringtone!</button>
-    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('mp3 msg', 'gaudio.mp3');">mp3-a!</button>
-    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('mp3 msg', '/gaudio.mp3');">mp3-b!</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Not', Notification msg', 'TYPE_NOTIFICATION');">Notification!</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Ala', Alarm msg', 'TYPE_ALARM');">Alarm!</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Rng', Ringtone msg', 'TYPE_RINGTONE');">Ringtone!</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('mp3a', mp3 msg', '/gaudio.mp3');">mp3-a!</button>
+    <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('mp3b', 'mp3 msg', '/www/gaudio.mp3');">mp3-b!</button>
   </body>
 
 </html>
