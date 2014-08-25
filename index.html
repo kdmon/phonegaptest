@@ -6,7 +6,9 @@
       document.addEventListener("deviceready", init, false);
 
       function init() {
-        // alert("Device is ready");
+        
+        window.plugin.backgroundMode.enable();
+
         // window.plugin.notification.local is now available
         window.plugin.notification.local.add({
           title: 'State update',
