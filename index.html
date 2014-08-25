@@ -22,10 +22,8 @@
           
         msg ("getting title...", "from wp");
         
-          $.get("http://en.wikipedia.org/w/api.php?action=query&list=pageswithprop&format=json&pwppropname=title&pwpprop=title&pwplimit=1&generator=random&grnnamespace=0&grnlimit=1", function (data){
+          $.get("http://en.wikipedia.org/w/api.php?action=query&list=pageswithprop&format=json&pwppropname=title&pwpprop=title&pwplimit=1&generator=random&grnnamespace=0&grnlimit=1", function (obj){
               
-              var obj = JSON.parse(data);
-              alert (obj.query.pages);
               var title = '';
               $.each(obj.query.pages, function (k,v) {title = obj.query.pages[k].title});
               msg ("Random Wikipedia article", title);
