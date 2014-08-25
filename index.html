@@ -20,6 +20,8 @@
         
         setInterval(function() {
           
+        msg ("getting title...", "from wp");
+        
           $.get("http://en.wikipedia.org/w/api.php?action=query&list=pageswithprop&format=json&pwppropname=title&pwpprop=title&pwplimit=1&generator=random&grnnamespace=0&grnlimit=1", function (data){
               var obj = JSON.parse(data);
               var title = '';
