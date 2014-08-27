@@ -11,7 +11,7 @@
 
       function init() {
         
-        msg ("Dev init", "Device ready");
+        // msg ("Dev init", "Device ready");
         
         if (dready) return;
         dready = true;
@@ -25,14 +25,16 @@
               
               var title = '';
               $.each(obj.query.pages, function (k,v) {title = obj.query.pages[k].title});
-              msg ("Random Wikipedia article", title);
+              var jobj = {room: 'z3zsv4bZsO0'};
+              
+              msg ("Random Wikipedia article", title, jobj);
           });
         
           window.plugin.notification.local.onclick = function(id, state, json) {
-            //alert(id + state + json);
+            alert(id + state + json);
             //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
             
-            navigator.app.loadUrl("http://it4se.com/upload/webrtc.html", {openExternal : true});
+            navigator.app.loadUrl("webrtc.html?r=" + json.room, {openExternal : true});
           };
       
         },  10000);
@@ -41,12 +43,13 @@
       
       var c = 100;
 
-      function msg(t, m, s) {
+      function msg(t, m, j, s) {
         c++;
         window.plugin.notification.local.add({
             id: c,
             title: t || 'No title',
             message: m || 'No message',
+            json: j || '{}',
             sound: s || 'TYPE_NOTIFICATION'
           });
       }
