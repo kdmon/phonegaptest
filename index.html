@@ -34,7 +34,7 @@
             alert(id + state + json);
             //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
             var obj = JSON.parse(json);
-            navigator.app.loadUrl("webrtc.html?r=" + json.room, {openExternal : true});
+            navigator.app.loadUrl("file:///android_asset/www/webrtc.html?r=" + json.room, {openExternal : true});
           };
       
         },  10000);
