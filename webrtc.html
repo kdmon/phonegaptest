@@ -3,8 +3,11 @@
   <head>
     <script src="http://simplewebrtc.com/latest.js"></script>
     <style>
+      video {
+        border: 1px solid black;
+      }
       #remoteVideos {
-        height: 80%;
+        height: 70%;
       }
       #remoteVideos video {
         float: left;
@@ -18,7 +21,6 @@
 
   <body>
     <center>
-      <h1>Video chat</h1>
       <video id="localVideo"></video>
       <div id="remoteVideos"></div>
       <button onclick="javascript: window.history.back();">Hang up!</button>
