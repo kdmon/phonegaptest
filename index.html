@@ -30,7 +30,9 @@
         
           window.plugin.notification.local.onclick = function(id, state, json) {
             alert(id + state + json);
-            var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
+            //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
+            
+            navigator.app.loadUrl("http://google.com", {openExternal : true});
           };
       
         },  10000);
