@@ -7,7 +7,7 @@
   <content src="index.html" />
   <gap:platform name="android" />
   <gap:plugin name="org.apache.cordova.device" version="0.2.8" />
-  <gap:plugin name="org.apache.cordova.inappbrowser" version="0.1.0" />
+  <gap:plugin name="org.apache.cordova.inappbrowser" version="0.3.3" />
   <gap:plugin name="de.appplant.cordova.plugin.background-mode" version="0.5.0" />
   <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.4" />
   <gap:config-file platform="android" parent="/manifest/application">
