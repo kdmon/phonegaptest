@@ -11,130 +11,139 @@
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://it4se.com:9000/socket.io/socket.io.js"></script>
     <script>
-      
-      var alias = "Unregistered user";
-      
-      function answer(caller, room) {
-        socket.emit('answer', {
-          "callee": {
-            "caller": alias,
-            "callee": callee,
-            "room": alias + callee
-          }
-        });
-      }
-      
-      function call(callee, room) {
-        socket.emit('call', {
-          "caller": {
-            "caller": alias,
-            "callee": callee,
-            "room": room || alias + callee
-          }
-        });
-      }
-      
-      function updateList (users) {
-        $("#userlist").html('');
-        for (var key in users) {
-          $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ') <button onclick="javascript: call(' + '"' + key + '"' + ',);">Call</button></li>');
-        }
-      }
-      
-      function register(nickname, state) {
-        alias = nickname;
-        socket.emit('register', {
-          "caller": {
-            "alias": alias,
-            "state": state
-          }
-        });
-      }
-      
-      var socket = io.connect('http://it4se.com:9000');
-      
-      socket.on('serverUpdate', function (data) {
+    
+      // on document ready
+      $(function() {
+        var alias = localStorage.alias || "Guest_" + Math.round(Math.random()*100000);
+        $("#alias").val(alias);
         
-        switch (data.server.action) {
-          
-          case "userlist":
-            alert ("Retrieved userlist");
-            updateList (data.server.message);
-          break;
-          
-          case "answered":
-            navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
-          break;
-          
-          case "invitation":
-            msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room});
-          break;
-          
-          
+        function answer(caller, room) {
+          socket.emit('answer', {
+            "callee": {
+              "caller": alias,
+              "callee": callee,
+              "room": alias + callee
+            }
+          });
         }
         
+        function call(callee, room) {
+          socket.emit('call', {
+            "caller": {
+              "caller": alias,
+              "callee": callee,
+              "room": room || alias + callee
+            }
+          });
+        }
+        
+        function updateList (users) {
+          $("#userlist").html('');
+          for (var key in users) {
+            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ') <button onclick="javascript: call(' + '"' + key + '"' + ',);">Call</button></li>');
+          }
+        }
+        
+        function register() {
+          alias = $("#alias").val();
+          localStorage.alias = alias;
+          socket.emit('register', {
+            "caller": {
+              "alias": alias,
+              "state": state
+            }
+          });
+        }
+        
+        var socket = io.connect('http://it4se.com:9000');
+        
+        socket.on('serverUpdate', function (data) {
+          
+          switch (data.server.action) {
+            
+            case "userlist":
+              alert ("Retrieved userlist");
+              updateList (data.server.message);
+            break;
+            
+            case "answered":
+              navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
+            break;
+            
+            case "invitation":
+              msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room});
+            break;
+            
+            
+          }
+          
+        });
+        
+        var dready = false;
+        
+        document.addEventListener("deviceready", init, false);
+        init();
+        
+        function init() {
+          
+          if (dready) return;
+          dready = true;
+          
+          if (window.plugin) {
+  
+            window.plugin.notification.local.onclick = function(id, state, json) {
+              var obj = JSON.parse(json);
+              //alert(id + state + json);
+              //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
+              
+              navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
+            };
+          
+          }
+      
+          /*
+          // window.plugin.backgroundMode.enable();
+          
+          setInterval(function() {
+          
+          
+            $.get("http://en.wikipedia.org/w/api.php?action=query&list=pageswithprop&format=json&pwppropname=title&pwpprop=title&pwplimit=1&generator=random&grnnamespace=0&grnlimit=1", function (obj){
+                
+                var title = '';
+                $.each(obj.query.pages, function (k,v) {title = obj.query.pages[k].title});
+                var jobj = {room: 'z3zsv4bZsO0'};
+                
+                msg ("Random Wikipedia article", title, jobj);
+            });
+          
+          },  30000);
+          
+          */
+        
+        }
+        
+        var c = 100;
+  
+        function msg(t, m, j, s) {
+          c++;
+          window.plugin.notification.local.add({
+              id: c,
+              title: t || 'No title',
+              message: m || 'No message',
+              json: j || '{}',
+              sound: s || 'TYPE_NOTIFICATION'
+            });
+        }
       });
       
-      var dready = false;
-      
-      document.addEventListener("deviceready", init, false);
-      init();
-      
-      function init() {
-        
-        if (dready) return;
-        dready = true;
-          
-        
-        window.plugin.notification.local.onclick = function(id, state, json) {
-          var obj = JSON.parse(json);
-          //alert(id + state + json);
-          //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
-          
-          navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
-        };
-    
-        /*
-        // window.plugin.backgroundMode.enable();
-        
-        setInterval(function() {
-        
-        
-          $.get("http://en.wikipedia.org/w/api.php?action=query&list=pageswithprop&format=json&pwppropname=title&pwpprop=title&pwplimit=1&generator=random&grnnamespace=0&grnlimit=1", function (obj){
-              
-              var title = '';
-              $.each(obj.query.pages, function (k,v) {title = obj.query.pages[k].title});
-              var jobj = {room: 'z3zsv4bZsO0'};
-              
-              msg ("Random Wikipedia article", title, jobj);
-          });
-        
-        },  30000);
-        
-        */
-      
-      }
-      
-      var c = 100;
-
-      function msg(t, m, j, s) {
-        c++;
-        window.plugin.notification.local.add({
-            id: c,
-            title: t || 'No title',
-            message: m || 'No message',
-            json: j || '{}',
-            sound: s || 'TYPE_NOTIFICATION'
-          });
-      }
     </script>
    
   </head>
 
   <body>
     <h1>Pick an alias:</h1>
-    <input id="alias">
-    <button onclick="javascript: register('Just a sample test user');">Register</button>
+    <input id="alias" type="text">
+    <button onclick="javascript: register();">Register</button>
     
     <h1>Registered users:</h1>
     <ol id="userlist"></ol>
