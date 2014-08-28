@@ -2,7 +2,7 @@
 
   <head>
     <style>
-      button, input {
+      button, input, .answer {
         font-size: 2em;
         padding: 10px;
       }
@@ -32,8 +32,19 @@
             break;
             
             case "invitation":
-              alert ("invitation received");
-              msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room});
+              
+              // mobile device
+              if (dready)  {
+                // background notification
+                msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room});
+              }
+              
+              // Desktop browser
+              else {
+                // foreground message
+                $("#message").html("<h1>Video call from " + data.server.message.callerCall + '</h1><a class="answer" href="http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=' + data.server.message.room + ">Answer</a>");
+              }
+              
             break;
             
             
@@ -51,7 +62,7 @@
           });
         }
         
-        function placeCall (callee, room) {
+        function call (callee, room) {
           socket.emit('call', {
             "caller": {
               "caller": alias,
@@ -71,7 +82,7 @@
               var obj = JSON.parse(json);
               //alert(id + state + json);
               //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
-              
+              answer (data.server.message.caller, data.server.message.room);
               navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
             };
           
@@ -111,7 +122,7 @@
         function updateList (users) {
           $("#userlist").html('');
           for (var key in users) {
-            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ") <button onclick='javascript: placeCall (" + '"' + key + '"' + ");'>Call</button></li>");
+            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ") <button onclick='javascript: call (" + '"' + key + '"' + ");'>Call</button></li>");
           }
         }
         
@@ -146,7 +157,7 @@
     <h1>Pick an alias:</h1>
     <input id="alias" type="text">
     <button onclick="javascript: register();">Change name</button>
-    
+    <div id="messages"></div>
     <h1>Registered users:</h1>
     <ol id="userlist"></ol>
     
