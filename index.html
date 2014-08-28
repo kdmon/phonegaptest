@@ -56,7 +56,10 @@
         
         function register () {
           alias = $("#alias").val();
+          alert ("reg")
           localStorage['alias'] = alias;
+          
+          alert ("ls")
           socket.emit('register', {
             "caller": {
               "alias": alias,
