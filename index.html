@@ -41,7 +41,7 @@
               // mobile device
               if (dready)  {
                 // background notification
-                msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room}, 'TYPE_RINGTONE');
+                msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"action": "invitation", caller": data.server.message.caller, "room": data.server.message.room}, 'TYPE_RINGTONE');
               }
               
               // Desktop browser
@@ -132,7 +132,7 @@
                 case "hangup":
                 break;
                 
-                default:
+                case "invitation":
                   answer (data.server.message.caller, data.server.message.room);
                   navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
                 break;
