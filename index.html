@@ -36,13 +36,13 @@
               // mobile device
               if (dready)  {
                 // background notification
-                msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room});
+                msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room}, 'TYPE_RINGTONE');
               }
               
               // Desktop browser
               else {
                 // foreground message
-                $("#messages").append('<a class="answer" href="http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=' + data.server.message.room + '">Answer!</a>');
+                $("#messages").append("<button onclick='javascript: desktopAnswer(" + '"' + data.server.message.callee + '"' + ', ' + '"' + data.server.message.room + '"' + ");'>Answer</button>");
               }
               
             break;
@@ -97,15 +97,10 @@
         }
         
         function desktopAnswer (callee, room) {
-          answer (callee,room);
           
-          socket.emit('call', {
-            "caller": {
-              "caller": alias,
-              "callee": callee,
-              "room": room || alias + callee
-            }
-          });
+          $("#messages").html('');
+          answer (callee,room);
+          window.open ("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room);
         }
         
         function hangup (callee) {
