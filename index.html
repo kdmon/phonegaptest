@@ -28,7 +28,7 @@
                 navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
               }
               else {
-                window.open ("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room);
+                window.open ("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room);
               }
             break;
             
@@ -41,13 +41,13 @@
               if (dready)  {
                 // background notification
                 msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"action": "invitation", "caller": data.server.message.caller, "room": data.server.message.room}, 'TYPE_RINGTONE');
-                $("#messages").append("<button onclick='javascript: mobileAnswer(" + '"' + data.server.message.callee + '"' + ', ' + '"' + data.server.message.room + '"' + ");'>Answer</button>");
+                $("#messages").append("<button onclick='javascript: mobileAnswer(" + '"' + data.server.message.caller + '"' + ', "' + data.server.message.callee + '"' + ', ' + '"' + data.server.message.room + '"' + ");'>Answer</button>");
               }
               
               // Desktop browser
               else {
                 // foreground message
-                $("#messages").append("<button onclick='javascript: desktopAnswer(" + '"' + data.server.message.callee + '"' + ', ' + '"' + data.server.message.room + '"' + ");'>Answer</button>");
+                $("#messages").append("<button onclick='javascript: desktopAnswer(" + '"' + data.server.message.caller + '"' + ', "' + data.server.message.callee + '"' + ', ' + '"' + data.server.message.room + '"' + ");'>Answer</button>");
               }
               
             break;
@@ -57,7 +57,7 @@
               // mobile device
               if (dready)  {
                 // background notification
-                msg ("Tap to view missed call.", data.server.message.caller + " hung up video call.", {"action": "hangup", "caller": data.server.message.caller, "room": data.server.message.room});
+                msg ("Tap to view missed call.", data.server.message.caller + " hung up video call.", {"action": "hangup", "caller": data.server.message.caller,  "room": data.server.message.room});
               }
               
               // Desktop browser
@@ -76,10 +76,10 @@
           
         });
         
-        function answer (callee, room) {
+        function answer (caller, callee, room) {
           socket.emit('answer', {
             "callee": {
-              "caller": alias,
+              "caller": caller,
               "callee": callee,
               "room": alias + callee
             }
@@ -101,16 +101,16 @@
           });
         }
         
-        function desktopAnswer (callee, room) {
+        function desktopAnswer (caller, callee, room) {
           
           $("#messages").html('');
-          answer (callee,room);
+          answer (caller, callee,room);
           window.open ("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room);
         }
         
-        function mobileAnswer (callee, room) {
+        function mobileAnswer (caller, callee, room) {
           $("#messages").html('');
-          answer (callee, room);
+          answer (caller, callee, room);
           navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room, {openExternal : true});
         }
         
@@ -139,7 +139,7 @@
                 break;
                 
                 case "invitation":
-                  answer (data.server.message.caller, data.server.message.room);
+                  answer (data.server.message.caller, data.server.message.callee, data.server.message.room);
                   navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
                 break;
               }
