@@ -117,17 +117,12 @@
         function register () {
           alias = $("#alias").val();
           localStorage['alias'] = alias;
-          
-          alert ("ls");
-          
           socket.emit('register', {
             "caller": {
               "alias": alias,
               "state": 'idle'
             }
           });
-          
-          alert ("emitted");
         }
         
         // event listeners
