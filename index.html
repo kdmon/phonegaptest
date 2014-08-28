@@ -23,7 +23,6 @@
           
           switch (data.server.action) {
             
-            
             case "answered":
               if (dready)  {
                 navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
@@ -91,7 +90,7 @@
     
           $("#messages").html('');
           $("#messages").append("<h2>Calling " + callee + '</h2>');
-          $("#messages").append('<a class="answer" href="javascript: hangup();">Hang up!</a>');
+          $("#messages").append("<button onclick='javascript: hangup(" + '"' + callee + '"' + ");'>Hang up!</a>");
           
           socket.emit('call', {
             "caller": {
