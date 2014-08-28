@@ -12,12 +12,7 @@
     <script src="http://it4se.com:9000/socket.io/socket.io.js"></script>
     <script>
     
-      // on document ready
-      $(function() {
-        var alias = localStorage.alias || "Guest_" + Math.round(Math.random()*100000);
-        $("#alias").val(alias);
-        
-        function answer(caller, room) {
+     function answer (caller, room) {
           socket.emit('answer', {
             "callee": {
               "caller": alias,
@@ -27,7 +22,7 @@
           });
         }
         
-        function call(callee, room) {
+        function call (callee, room) {
           socket.emit('call', {
             "caller": {
               "caller": alias,
@@ -44,7 +39,7 @@
           }
         }
         
-        function register() {
+        function register () {
           alias = $("#alias").val();
           localStorage.alias = alias;
           socket.emit('register', {
@@ -54,6 +49,13 @@
             }
           });
         }
+        
+      // on document ready
+      $(function() {
+        var alias = localStorage.alias || "Guest_" + Math.round(Math.random()*100000);
+        $("#alias").val(alias);
+        
+       
         
         var socket = io.connect('http://it4se.com:9000');
         
