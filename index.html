@@ -110,7 +110,7 @@
         function updateList (users) {
           $("#userlist").html('');
           for (var key in users) {
-            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ") <button onclick='javascript: placeCall(" + "'" + key + "'" + ");'>Call</button></li>");
+            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ") <button onclick='javascript: placeCall (" + '"' + key + '"' + ");'>Call</button></li>");
           }
         }
         
