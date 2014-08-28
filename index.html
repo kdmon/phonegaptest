@@ -106,10 +106,10 @@
           
           caller = alias;
           $("#messages").html('');
-          $("#messages").append("<p>Calling " + name + '</p>');
+          $("#messages").append("<p>Calling " + name + ' ... please wait</p>');
           $("#messages").append("<a href='#' data-role='button' onclick='javascript: hangup(" + '"' + caller + '", "' + callee + '"' + ");'>Hang up!</a>");
           
-          $("#messages").trigger("refresh");
+          $("#messages").trigger("create");
           
           socket.emit('call', {
             "caller": {
