@@ -26,6 +26,9 @@
             case "answered":
               if (dready)  {
                 navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
+                msg ("Tap to latest call.", "Video call with " + data.server.message.caller + " started.", {"action": ""});
+                
+                // todo: delete ringer msg
               }
               else {
                 window.open ("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room);
