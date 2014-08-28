@@ -42,7 +42,9 @@
               // Desktop browser
               else {
                 // foreground message
-                $("#message").html("<h1>Video call from " + data.server.message.callerCall + '</h1><a class="answer" href="http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=' + data.server.message.room + ">Answer</a>");
+                $("#messages").html('');
+                $("#messages").append("<h2>Video call from " + data.server.message.caller + '</h2>');
+                $("#messages").append('<a class="answer" href="http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=' + data.server.message.room + '">Answer!</a>');
               }
               
             break;
