@@ -53,19 +53,18 @@
             break;
             
             case "hangup":
+            
+              $("#messages").html('');
+              $("#messages").append("<h2>" + data.server.message.caller + ' hung up video call.</h2>');
               
               // mobile device
               if (dready)  {
                 // background notification
                 msg ("Tap to view missed call.", data.server.message.caller + " hung up video call.", {"action": "hangup", "caller": data.server.message.caller,  "room": data.server.message.room});
+                
+                // todo: delete ringer msg
               }
               
-              // Desktop browser
-              else {
-                // foreground message
-                $("#messages").html('');
-                $("#messages").append("<h2>" + data.server.message.caller + ' hung up video call.</h2>');
-              }
             break;
             
             case "userlist":
@@ -122,6 +121,7 @@
               "callee": callee
             }
           });
+          $("#messages").html('');
         }
         
         function init() {
