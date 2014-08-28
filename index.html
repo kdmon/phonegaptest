@@ -25,7 +25,12 @@
             
             
             case "answered":
-              navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
+              if (dready)  {
+                navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
+              }
+              else {
+                window.open ("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room);
+              }
             break;
             
             case "invitation":
@@ -52,7 +57,7 @@
               // mobile device
               if (dready)  {
                 // background notification
-                msg ("Tap to view missed call.", data.server.message.caller + " hung up video call.", {"action": "hangup", caller": data.server.message.caller, "room": data.server.message.room});
+                msg ("Tap to view missed call.", data.server.message.caller + " hung up video call.", {"action": "hangup", "caller": data.server.message.caller, "room": data.server.message.room});
               }
               
               // Desktop browser
@@ -71,7 +76,7 @@
           
         });
         
-        function answer (caller, room) {
+        function answer (callee, room) {
           socket.emit('answer', {
             "callee": {
               "caller": alias,
