@@ -32,6 +32,7 @@
             break;
             
             case "invitation":
+              alert ("invitation received");
               msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room});
             break;
             
