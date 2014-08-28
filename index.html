@@ -43,18 +43,17 @@
       
       socket.on('serverUpdate', function (data) {
         
-        alert ("Fetched server update");
-        
         switch (data.action) {
+          
+          case "userlist":
+            alert ("Retrieved userlist");
+            updateList (data.message);
+          break;
           
           case "invite":
             msg ("Tap to accept call", "Video call from " + data.message.caller, {"room": data.message.room});
           break;
           
-          case "userlist":
-            alert ("Retrieved userlist" + data.message);
-            updateList (data.message);
-          break;
           
         }
         
