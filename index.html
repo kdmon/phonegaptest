@@ -2,14 +2,21 @@
 
   <head>
     <style>
-      button, input, .answer {
-        font-size: 2em;
-        padding: 10px;
+      .box {
+        border: 1px solid #000;
+        padding-left: 15px; 
+        padding-right: 15px; 
+        margin-top: 15px; 
+        border-radius: 5px;
       }
+      
     </style>
     <script type="text/javascript" src="phonegap.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://it4se.com:9000/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
     <script>
     
         var alias = '';
@@ -24,6 +31,9 @@
           switch (data.server.action) {
             
             case "answered":
+              
+              $("#messages").html('');
+              
               if (dready)  {
                 navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
                 msg ("Tap to latest call.", "Video call with " + data.server.message.caller + " started.", {"action": ""});
@@ -88,11 +98,12 @@
           });
         }
         
-        function call (callee, room) {
-    
+        function call (name, callee, room) {
+          
+          caller = alias;
           $("#messages").html('');
-          $("#messages").append("<h2>Calling " + callee + '</h2>');
-          $("#messages").append("<button onclick='javascript: hangup(" + '"' + callee + '"' + ");'>Hang up!</a>");
+          $("#messages").append("<p>Calling " + name + '</p>');
+          $("#messages").append("<a href='#' data-role='button' onclick='javascript: hangup(" + '"' + caller + '", "' + callee + '"' + ");'>Hang up!</a>");
           
           socket.emit('call', {
             "caller": {
@@ -106,7 +117,7 @@
         function desktopAnswer (caller, callee, room) {
           
           $("#messages").html('');
-          answer (caller, callee,room);
+          answer (caller, callee, room);
           window.open ("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room);
         }
         
@@ -116,7 +127,7 @@
           navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room, {openExternal : true});
         }
         
-        function hangup (callee) {
+        function hangup (caller, callee) {
           
           socket.emit('hangup', {
             "caller": {
@@ -184,8 +195,9 @@
         function updateList (users) {
           $("#userlist").html('');
           for (var key in users) {
-            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ") <button onclick='javascript: call (" + '"' + key + '"' + ");'>Call</button></li>");
+            if (users[key].alias !== alias) $("#userlist").append("<li><a href='#' onclick='javascript: call (" + '"' + users[key].alias + '", ' + '"' + key + '"' + ");'>" + users[key].alias + ' (' + users[key].state + ")" + "</a></li>");
           }
+          $("#userlist").listview( "refresh" );
         }
         
         function register () {
@@ -216,13 +228,32 @@
   </head>
 
   <body>
-    <h1>Pick an alias:</h1>
-    <input id="alias" type="text">
-    <button onclick="javascript: register();">Change name</button>
-    <div id="messages"></div>
-    <h1>Registered users:</h1>
-    <ol id="userlist"></ol>
-    
+  
+    <div data-role="page" id="frontpage" class="ui-responsive-panel">
+      <div data-role="header">
+        <h3>Video chat</h3>
+      </div>
+      
+      <div role="main" class="ui-content">
+              
+        <div class="ui-grid-a">
+        	<div class="ui-block-a" style="width: 60%;"><input id="alias" type="text"></div>
+        	<div class="ui-block-b" style="width: 40%;"><a data-role="button" href="#" onclick="javascript: register();">Set alias</a></div>
+        </div>
+        
+        <div class="box">
+          <div id="messages">No messages.</div>
+        </div>
+        
+        <h3>Buddy list:</h3>
+        <div class="box">
+          <ul id="userlist" data-role="listview">
+              <li>Buddies</li>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
   </body>
 
 </html>
