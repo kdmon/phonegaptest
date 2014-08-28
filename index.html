@@ -15,58 +15,7 @@
         var alias = '';
         var dready = false;
         var c = 100;
-  
-        function msg(t, m, j, s) {
-          c++;
-          window.plugin.notification.local.add({
-              id: c,
-              title: t || 'No title',
-              message: m || 'No message',
-              json: j || '{}',
-              sound: s || 'TYPE_NOTIFICATION'
-            });
-        }
         
-        function answer (caller, room) {
-          socket.emit('answer', {
-            "callee": {
-              "caller": alias,
-              "callee": callee,
-              "room": alias + callee
-            }
-          });
-        }
-        
-        function call (callee, room) {
-          socket.emit('call', {
-            "caller": {
-              "caller": alias,
-              "callee": callee,
-              "room": room || alias + callee
-            }
-          });
-        }
-        
-        function updateList (users) {
-          $("#userlist").html('');
-          for (var key in users) {
-            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ') <button onclick="javascript: call(' + '"' + key + '"' + ',);">Call</button></li>');
-          }
-        }
-        
-        function register () {
-          alias = $("#alias").val();
-          alert ("reg")
-          localStorage['alias'] = alias;
-          
-          alert ("ls")
-          socket.emit('register', {
-            "caller": {
-              "alias": alias,
-              "state": state
-            }
-          });
-        }
         
         var socket = io.connect('http://it4se.com:9000');
         
@@ -91,9 +40,25 @@
           
         });
         
+        function answer (caller, room) {
+          socket.emit('answer', {
+            "callee": {
+              "caller": alias,
+              "callee": callee,
+              "room": alias + callee
+            }
+          });
+        }
         
-        document.addEventListener("deviceready", init, false);
-        
+        function call (callee, room) {
+          socket.emit('call', {
+            "caller": {
+              "caller": alias,
+              "callee": callee,
+              "room": room || alias + callee
+            }
+          });
+        }
         
         function init() {
           
@@ -131,14 +96,51 @@
         
         }
         
+        function msg(t, m, j, s) {
+          c++;
+          window.plugin.notification.local.add({
+              id: c,
+              title: t || 'No title',
+              message: m || 'No message',
+              json: j || '{}',
+              sound: s || 'TYPE_NOTIFICATION'
+            });
+        }
         
-      
-      // on document ready
-      $(function() {
-        alias = localStorage['alias'] || "Guest_" + Math.round(Math.random()*100000);
-        $("#alias").val(alias);
+        function updateList (users) {
+          $("#userlist").html('');
+          for (var key in users) {
+            $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ') <button onclick="javascript: call(' + '"' + key + '"' + ',);">Call</button></li>');
+          }
+        }
         
-      });
+        function register () {
+          alias = $("#alias").val();
+          alert ("reg");
+          localStorage['alias'] = alias;
+          
+          alert ("ls");
+          
+          socket.emit('register', {
+            "caller": {
+              "alias": alias,
+              "state": state
+            }
+          });
+          
+          alert ("emitted");
+        }
+        
+        // event listeners
+        
+        // on document ready
+        $(function() {
+          alias = localStorage['alias'] || "Guest_" + Math.round(Math.random()*100000);
+          $("#alias").val(alias);
+          
+        });
+        
+        document.addEventListener("deviceready", init, false);
       
     </script>
    
