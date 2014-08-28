@@ -132,6 +132,8 @@
         $(function() {
           alias = localStorage['alias'] || "Guest_" + Math.round(Math.random()*100000);
           $("#alias").val(alias);
+          // auto-register
+          register();
         });
         
         document.addEventListener("deviceready", init, false);
@@ -143,7 +145,7 @@
   <body>
     <h1>Pick an alias:</h1>
     <input id="alias" type="text">
-    <button onclick="javascript: register();">Register</button>
+    <button onclick="javascript: register();">Change name</button>
     
     <h1>Registered users:</h1>
     <ol id="userlist"></ol>
