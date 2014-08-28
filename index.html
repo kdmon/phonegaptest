@@ -63,12 +63,14 @@
                 $("#messages").append("<button onclick='javascript: desktopAnswer(" + '"' + data.server.message.caller + '"' + ', "' + data.server.message.callee + '"' + ', ' + '"' + data.server.message.room + '"' + ");'>Answer</button>");
               }
               
+              $("#messages").trigger("refresh");
+              
             break;
             
             case "hangup":
             
               $("#messages").html('');
-              $("#messages").append("<h2>" + data.server.message.caller + ' hung up video call.</h2>');
+              $("#messages").append("<p>" + data.server.message.caller + ' hung up video call.</p>');
               
               // mobile device
               if (dready)  {
@@ -77,6 +79,8 @@
                 
                 // todo: delete ringer msg
               }
+              
+              $("#messages").trigger("refresh");
               
             break;
             
