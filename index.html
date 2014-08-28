@@ -11,7 +11,7 @@
 
       function init() {
         
-        // msg ("Dev init", "Device ready");
+        msg ("Dev init", "Device ready", {room: 'z3zsv4bZsO0'});
         
         if (dready) return;
         dready = true;
@@ -37,7 +37,7 @@
             navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
           };
       
-        },  10000);
+        },  30000);
       
       }
       
