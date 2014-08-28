@@ -12,13 +12,24 @@
     <script src="http://it4se.com:9000/socket.io/socket.io.js"></script>
     <script>
       
+      var alias = "Unregistered user";
+      
+      function answer(caller, room) {
+        socket.emit('answer', {
+          "callee": {
+            "caller": alias,
+            "callee": callee,
+            "room": alias + callee
+          }
+        });
+      }
       
       function call(callee, room) {
         socket.emit('call', {
           "caller": {
             "caller": alias,
             "callee": callee,
-            "room": room
+            "room": room || alias + callee
           }
         });
       }
@@ -26,11 +37,12 @@
       function updateList (users) {
         $("#userlist").html('');
         for (var key in users) {
-          $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ') <button onclick="javascript: call(' + key + ')">Call</button></li>');
+          $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ') <button onclick="javascript: call(' + key + ');">Call</button></li>');
         }
       }
       
-      function register(alias, state) {
+      function register(nickname, state) {
+        alias = nickname;
         socket.emit('register', {
           "caller": {
             "alias": alias,
@@ -50,8 +62,12 @@
             updateList (data.server.message);
           break;
           
-          case "invite":
-            msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"room": data.server.message.room});
+          case "answered":
+            navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room), {openExternal : true});
+          break;
+          
+          case "invitation":
+            msg ("Tap to accept call", "Video call from " + data.server.message.caller, {"caller": data.server.message.caller, "room": data.server.message.room});
           break;
           
           
@@ -71,9 +87,10 @@
           
         
         window.plugin.notification.local.onclick = function(id, state, json) {
-          alert(id + state + json);
-          //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
           var obj = JSON.parse(json);
+          //alert(id + state + json);
+          //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
+          
           navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
         };
     
