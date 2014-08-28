@@ -43,6 +43,10 @@
       
       socket.on('serverUpdate', function (data) {
         
+        alert (data);
+        alert (data.action);
+        alert (data.message);
+        
         switch (data.action) {
           
           case "userlist":
