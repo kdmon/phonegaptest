@@ -116,7 +116,6 @@
         
         function register () {
           alias = $("#alias").val();
-          alert ("reg");
           localStorage['alias'] = alias;
           
           alert ("ls");
@@ -124,7 +123,7 @@
           socket.emit('register', {
             "caller": {
               "alias": alias,
-              "state": state
+              "state": 'idle'
             }
           });
           
@@ -137,7 +136,6 @@
         $(function() {
           alias = localStorage['alias'] || "Guest_" + Math.round(Math.random()*100000);
           $("#alias").val(alias);
-          
         });
         
         document.addEventListener("deviceready", init, false);
