@@ -1,11 +1,19 @@
 <html>
 
   <head>
+    <style>
+      button, input {
+        font-size: 2em;
+        padding: 10px;
+      }
+    </style>
     <script type="text/javascript" src="phonegap.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://it4se.com:9000/socket.io/socket.io.js"></script>
     <script>
-    
+      var socket = io.connect('http://it4se.com:9000');
+      var alias = "A test user";
+        
       function call(callee, room) {
         socket.emit('call', {
           "caller": {
@@ -35,14 +43,13 @@
       var dready = false;
       
       document.addEventListener("deviceready", init, false);
-
+      init();
+      
       function init() {
         
         if (dready) return;
         dready = true;
           
-        var socket = io.connect('http://it4se.com:9000');
-        var alias = "A test user";
         
         
         socket.on('serverUpdate', function (data) {
@@ -102,13 +109,7 @@
           });
       }
     </script>
-    <style>
-      button {
-        font-size: 2em;
-        padding: 10px;
-        background: #cfc;
-      }
-    </style>
+   
   </head>
 
   <body>
