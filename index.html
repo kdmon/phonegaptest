@@ -23,15 +23,15 @@
           
           switch (data.server.action) {
             
-            case "userlist":
-              updateList (data.server.message);
-            break;
             
             case "answered":
               navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
             break;
             
             case "invitation":
+            
+              $("#messages").html('');
+              $("#messages").append("<h2>Video call from " + data.server.message.caller + '</h2>');
               
               // mobile device
               if (dready)  {
@@ -42,13 +42,30 @@
               // Desktop browser
               else {
                 // foreground message
-                $("#messages").html('');
-                $("#messages").append("<h2>Video call from " + data.server.message.caller + '</h2>');
                 $("#messages").append('<a class="answer" href="http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=' + data.server.message.room + '">Answer!</a>');
               }
               
             break;
             
+            case "hangup":
+              
+              // mobile device
+              if (dready)  {
+                // background notification
+                msg ("Tap to view missed call.", data.server.message.caller + " hung up video call.", {"action": "hangup", caller": data.server.message.caller, "room": data.server.message.room});
+              }
+              
+              // Desktop browser
+              else {
+                // foreground message
+                $("#messages").html('');
+                $("#messages").append("<h2>" + data.server.message.caller + ' hung up video call.</h2>');
+              }
+            break;
+            
+            case "userlist":
+              updateList (data.server.message);
+            break;
             
           }
           
@@ -65,11 +82,38 @@
         }
         
         function call (callee, room) {
+    
+          $("#messages").html('');
+          $("#messages").append("<h2>Calling " + callee + '</h2>');
+          $("#messages").append('<a class="answer" href="javascript: hangup();">Hang up!</a>');
+          
           socket.emit('call', {
             "caller": {
               "caller": alias,
               "callee": callee,
               "room": room || alias + callee
+            }
+          });
+        }
+        
+        function desktopAnswer (callee, room) {
+          answer (callee,room);
+          
+          socket.emit('call', {
+            "caller": {
+              "caller": alias,
+              "callee": callee,
+              "room": room || alias + callee
+            }
+          });
+        }
+        
+        function hangup (callee) {
+          
+          socket.emit('hangup', {
+            "caller": {
+              "caller": alias,
+              "callee": callee
             }
           });
         }
@@ -84,8 +128,15 @@
               var obj = JSON.parse(json);
               //alert(id + state + json);
               //var ref = window.open('http://it4se.com/upload/webrtc.html', '_system', 'location=no');
-              answer (data.server.message.caller, data.server.message.room);
-              navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
+              switch (obj.action) {
+                case "hangup":
+                break;
+                
+                default:
+                  answer (data.server.message.caller, data.server.message.room);
+                  navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
+                break;
+              }
             };
           
       
