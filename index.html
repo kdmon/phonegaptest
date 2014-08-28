@@ -41,7 +41,7 @@
         
         function register () {
           alias = $("#alias").val();
-          localStorage.alias = alias;
+          localStorage['alias'] = alias;
           socket.emit('register', {
             "caller": {
               "alias": alias,
@@ -52,7 +52,7 @@
         
       // on document ready
       $(function() {
-        var alias = localStorage.alias || "Guest_" + Math.round(Math.random()*100000);
+        var alias = localStorage['alias'] || "Guest_" + Math.round(Math.random()*100000);
         $("#alias").val(alias);
         
        
