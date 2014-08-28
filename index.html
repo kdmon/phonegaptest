@@ -12,7 +12,22 @@
     <script src="http://it4se.com:9000/socket.io/socket.io.js"></script>
     <script>
     
-     function answer (caller, room) {
+        var alias = '';
+        var dready = false;
+        var c = 100;
+  
+        function msg(t, m, j, s) {
+          c++;
+          window.plugin.notification.local.add({
+              id: c,
+              title: t || 'No title',
+              message: m || 'No message',
+              json: j || '{}',
+              sound: s || 'TYPE_NOTIFICATION'
+            });
+        }
+        
+        function answer (caller, room) {
           socket.emit('answer', {
             "callee": {
               "caller": alias,
@@ -50,13 +65,6 @@
           });
         }
         
-      // on document ready
-      $(function() {
-        var alias = localStorage['alias'] || "Guest_" + Math.round(Math.random()*100000);
-        $("#alias").val(alias);
-        
-       
-        
         var socket = io.connect('http://it4se.com:9000');
         
         socket.on('serverUpdate', function (data) {
@@ -81,17 +89,15 @@
           
         });
         
-        var dready = false;
         
         document.addEventListener("deviceready", init, false);
-        init();
+        
         
         function init() {
           
           if (dready) return;
           dready = true;
           
-          if (window.plugin) {
   
             window.plugin.notification.local.onclick = function(id, state, json) {
               var obj = JSON.parse(json);
@@ -101,7 +107,6 @@
               navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
             };
           
-          }
       
           /*
           // window.plugin.backgroundMode.enable();
@@ -124,18 +129,13 @@
         
         }
         
-        var c = 100;
-  
-        function msg(t, m, j, s) {
-          c++;
-          window.plugin.notification.local.add({
-              id: c,
-              title: t || 'No title',
-              message: m || 'No message',
-              json: j || '{}',
-              sound: s || 'TYPE_NOTIFICATION'
-            });
-        }
+        
+      
+      // on document ready
+      $(function() {
+        alias = localStorage['alias'] || "Guest_" + Math.round(Math.random()*100000);
+        $("#alias").val(alias);
+        
       });
       
     </script>
