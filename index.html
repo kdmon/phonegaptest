@@ -139,7 +139,7 @@
                 break;
                 
                 case "invitation":
-                  answer (data.server.message.caller, data.server.message.callee, data.server.message.room);
+                  answer (obj.caller, obj.callee, obj.room);
                   navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + obj.room, {openExternal : true});
                 break;
               }
