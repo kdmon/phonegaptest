@@ -3,8 +3,54 @@
   <head>
     <script type="text/javascript" src="phonegap.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://it4se.com:9000/socket.io/socket.io.js"></script>
     <script>
-    
+      
+      var socket = io.connect('http://it4se.com:9000');
+      var alias = "A test user";
+      
+      function call(callee, room) {
+        socket.emit('call', {
+          "caller": {
+            "caller": alias,
+            "callee": callee,
+            "room": room
+          }
+        });
+      }
+      
+      function updateList (users) {
+        $("#userlist").html('');
+        for (var key in users) {
+          $("#userlist").append('<li>' + users[key].alias + ' (' + users[key].state + ') <button onclick="javascript: call(' + key + ')">Call</button></li>');
+        }
+      }
+      
+      function register(alias, state) {
+        socket.emit('register', {
+          "caller": {
+            "alias": alias,
+            "state": state
+          }
+        });
+      }
+      
+      
+      socket.on('serverUpdate', function (data) {
+        
+        switch (data.action) {
+          case "invite":
+            msg ("Tap to accept call", "Video call from " + data.message.caller, {"room": data.message.room});
+          break;
+          
+          case "userlist":
+            updateList (data.message);
+          break;
+          
+        }
+        
+      });
+      
       var dready = false;
       
       document.addEventListener("deviceready", init, false);
@@ -57,7 +103,9 @@
   </head>
 
   <body>
-    <h1>Phonegap local notification test 2</h1>
+    <h1>Registered users:</h1>
+    <ol id="userlist"></ol>
+    <hr/>
     <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Not', 'Notification msg', '', 'TYPE_NOTIFICATION');">Notification!</button>
     <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Ala', 'Alarm msg', '', 'TYPE_ALARM');">Alarm!</button>
     <button style="font-size: 2em; padding: 10px; background: #cfc;" onclick="javascript: msg('Rng', 'Ringtone msg', '', 'TYPE_RINGTONE');">Ringtone!</button>
