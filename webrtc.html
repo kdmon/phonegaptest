@@ -5,19 +5,54 @@
     <title>Web Call</title>
     <script src="http://simplewebrtc.com/latest.js"></script>
     <style>
-      video {
-        border: 1px solid black;
-        background: #a00;
+      body {
+        margin: 0px;
+        padding: 0px;
       }
+      #remoteVideos video {
+        width: 100%;
+        height: 100%;
+        background: #060;
+        transform: scalex(-1);
+      }
+      
+      #videocontainer {
+        float: left;
+        width: 100%;
+        height: 100%;
+        background: #eee;
+      }
+      
+      #controls {
+        z-index: 1001;
+        background: #888;
+        padding: 2%;
+        width: 96%;
+      }
+      
+      #localVideo, #localVideo video {
+        background: #fff;
+        padding: 0px;
+        z-index: 999;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        opacity: 0.8;
+        width: 180px !important;
+        height: 130px !important;
+      }
+      
     </style>
   </head>
 
   <body>
-    <center>
-      <video id="localVideo"></video>
+    <div id="videocontainer">
+      <div id="localVideo"></div>
       <div id="remoteVideos"></div>
-      <button onclick="javascript: window.history.back();">Hang up!</button>
-    </center>
+      <div id="controls">
+        <button onclick="javascript: window.history.back();">Hang up!</button>
+      </div>
+    </div>
     <script>
       var webrtc = new SimpleWebRTC({
         // the id/element dom element that will hold "our" video
@@ -25,14 +60,16 @@
         // the id/element dom element that will hold remote videos
         remoteVideosEl: 'remoteVideos',
         // immediately ask for camera access
-        autoRequestMedia: true, 
+        autoRequestMedia: true,
         adjustPeerVolume: false,
         media: {
           video: {
             mandatory: {
               maxFrameRate: 15,
-              maxWidth: 640,
-              maxHeight: 640
+              minWidth: 580,
+              minHeight: 380,
+              maxWidth: 780,
+              maxHeight: 780
             }
           },
           audio: true
@@ -41,7 +78,7 @@
        // we have to wait until it's ready
       webrtc.on('readyToCall', function() {
         var room = location.search.split('room=')[1];
-        webrtc.joinRoom( room || 'silkword');
+        webrtc.joinRoom(room || 'silkword');
       });
     </script>
   </body>
