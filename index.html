@@ -204,10 +204,10 @@
         }
         
         function openOpera () {
-          alert("starting intent");
+          alert("starting intent: " + window.plugins.webintent.ACTION_VIEW);
           window.plugins.webintent.startActivity(
           {
-            action: "android.intent.action.VIEW",
+            action: window.plugins.webintent.ACTION_VIEW,
             url: 'http://www.sr.se'
           }, 
           function() {alert ('opened site')}, 
