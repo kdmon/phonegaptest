@@ -203,6 +203,18 @@
             });
         }
         
+        function openOpera () {
+          alert("opening opera");
+          window.plugins.webintent.startActivity(
+          {
+            action: 'com.opera.browser.ACTION_VIEW',
+            url: 'http://sr.se'
+          }, 
+          function() {}, 
+          function() {alert('Failed to open URL via Android Intent')}
+        );
+        }
+        
         function updateList (users) {
           $("#userlist").html('');
           for (var key in users) {
@@ -263,22 +275,8 @@
           </ul>
         </div>
         
-        <h3>childbrowser test</h3>
-        <a data-role="button" href="javascript:window.plugin.ChildBrowser.showWebPage('http://www.google.com', { showLocationBar: false })">New browser w/o location</a>
-        <a data-role="button" href="javascript:window.plugin.ChildBrowser.showWebPage('http://www.google.com', { showLocationBar: true })">New browser with location</a>
-        <a data-role="button" href="javascript:window.plugin.ChildBrowser.openExternal('http://www.google.com');">Open external test</a>
-        <a data-role="button" href="#" onclick="javascript:window.plugin.ChildBrowser.showWebPage('http://www.google.com', { showLocationBar: false })">New browser w/o location</a>
-        <a data-role="button" href="#" onclick="javascript:window.plugin.ChildBrowser.showWebPage('http://www.google.com', { showLocationBar: true })">New browser with location</a>
-        <a data-role="button" href="#" onclick="javascript:window.plugin.ChildBrowser.openExternal('http://www.google.com');">Open external test</a>
-        <a data-role="button" onclick="javascript:window.plugin.ChildBrowser.showWebPage('http://www.google.com', { showLocationBar: false })">New browser w/o location</a>
-        <a data-role="button" onclick="javascript:window.plugin.ChildBrowser.showWebPage('http://www.google.com', { showLocationBar: true })">New browser with location</a>
-        <a data-role="button" onclick="javascript:window.plugin.ChildBrowser.openExternal('http://www.google.com');">Open external test</a>
-        <h3>Web intent test</h3>
-        <a data-role="button" href="intent://scan/#Intent;scheme=zxing;package=com.google.zxing.client.android;end"> Take a QR code </a>
-        <a data-role="button" href="intent://opera1/#Intent;scheme=opera;package=com.opera.browser;end"> Open Opera Browser </a>
-        <a data-role="button" href="intent://opera2/#Intent;scheme=opera;package=com.opera.browser;launchFlags=268435456;end"> Open Opera Browser with flags </a>
-        <a data-role="button" href="geo:38.897096,-77.036545">Open map</a>
-        <a data-role="button" href="mail:38.897096,-77.036545">mail test</a>
+        <h3>Intent test</h3>
+        <a data-role="button" href="#" onclick="javascript:openOpera();">New browser with location</a>
       </div>
     </div>
   </body>
