@@ -36,9 +36,10 @@
               
               if (dready)  {
                 // todo: delete ringer msg
-                window.plugin.notification.local.cancelAll();
+                window.plugin.notification.local.cancelAll(function () {
+                  navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
+                });
                 
-                navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
                 //msg ("Tap to view latest call.", "Video call with " + data.server.message.caller + " started.", {"action": ""});
                 
               }
