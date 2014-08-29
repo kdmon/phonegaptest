@@ -208,11 +208,11 @@
           window.plugins.webintent.startActivity(
           {
             action: 'window.plugins.webintent.ACTION_VIEW',
-            component: 'com.opera.browser',
+            component: 'com.opera.Opera',
             url: 'http://sr.se'
           }, 
           function() {}, 
-          function() {alert('Failed to open URL via Android Intent')}
+          function(e) {alert('Failed to open URL via Android Intent: ' + e)}
         );
         }
         
