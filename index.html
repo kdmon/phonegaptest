@@ -37,11 +37,8 @@
               if (dready)  {
                 // todo: delete ringer msg
                 window.plugin.notification.local.cancelAll();
-                
-                setTimeout(function () {
-                    navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
-                }, 250);
-                
+                navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + data.server.message.room, {openExternal : true});
+
                 // msg ("Tap to return to app.", "Video call with " + data.server.message.caller + " started.", {"action": ""});
                 
               }
@@ -134,6 +131,8 @@
         }
         
         function mobileAnswer (caller, callee, room) {
+          // stop ringtone
+          window.plugin.notification.local.cancelAll();
           $("#messages").html('');
           answer (caller, callee, room);
           navigator.app.loadUrl("http://it4se.com:8080/kdmon/phonegaptest/master/webrtc.html?room=" + room, {openExternal : true});
