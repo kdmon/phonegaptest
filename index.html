@@ -207,7 +207,8 @@
           alert("opening opera");
           window.plugins.webintent.startActivity(
           {
-            action: 'com.opera.browser.ACTION_VIEW',
+            action: 'window.plugins.webintent.ACTION_VIEW',
+            component: 'com.opera.browser',
             url: 'http://sr.se'
           }, 
           function() {}, 
