@@ -207,8 +207,8 @@
           alert("opening opera");
           window.plugins.webintent.startActivity(
           {
-            action: 'com.opera.Opera',
-            url: 'http://sr.se'
+            action: window.plugins.webintent.ACTION_VIEW,
+            url: 'geo:0,0?q=Vatican'}
           }, 
           function() {}, 
           function(e) {alert('Failed to open URL via Android Intent: ' + e)}
