@@ -61,7 +61,7 @@
         remoteVideosEl: 'remoteVideos',
         // immediately ask for camera access
         autoRequestMedia: true,
-        adjustPeerVolume: false,
+        adjustPeerVolume: false /*,
         media: {
           video: {
             mandatory: {
@@ -73,7 +73,7 @@
             }
           },
           audio: true
-        }
+        }*/
       });
        // we have to wait until it's ready
       webrtc.on('readyToCall', function() {
